@@ -1,0 +1,64 @@
+Index: lombok-ast-0.2.3/src/main/lombok/ast/grammar/ProfilerParseRunner.java
+===================================================================
+--- lombok-ast-0.2.3.orig/src/main/lombok/ast/grammar/ProfilerParseRunner.java
++++ lombok-ast-0.2.3/src/main/lombok/ast/grammar/ProfilerParseRunner.java
+@@ -27,7 +27,7 @@ import java.util.TreeSet;
+ 
+ import lombok.Data;
+ 
+-import org.parboiled.BasicParseRunner;
++import org.parboiled.parserunners.BasicParseRunner;
+ import org.parboiled.MatchHandler;
+ import org.parboiled.MatcherContext;
+ import org.parboiled.Rule;
+Index: lombok-ast-0.2.3/src/main/lombok/ast/grammar/Source.java
+===================================================================
+--- lombok-ast-0.2.3.orig/src/main/lombok/ast/grammar/Source.java
++++ lombok-ast-0.2.3/src/main/lombok/ast/grammar/Source.java
+@@ -37,7 +37,7 @@ import lombok.ast.Node;
+ import lombok.ast.Position;
+ 
+ import org.parboiled.Context;
+-import org.parboiled.RecoveringParseRunner;
++import org.parboiled.parserunners.RecoveringParseRunner;
+ import org.parboiled.errors.ParseError;
+ import org.parboiled.support.ParsingResult;
+ 
+Index: lombok-ast-0.2.3/src/main/lombok/ast/grammar/BasicsParser.java
+===================================================================
+--- lombok-ast-0.2.3.orig/src/main/lombok/ast/grammar/BasicsParser.java
++++ lombok-ast-0.2.3/src/main/lombok/ast/grammar/BasicsParser.java
+@@ -31,7 +31,7 @@ import org.parboiled.BaseParser;
+ import org.parboiled.MatcherContext;
+ import org.parboiled.Rule;
+ import org.parboiled.annotations.SuppressSubnodes;
+-import org.parboiled.matchers.CharSetMatcher;
++import org.parboiled.matchers.AnyOfMatcher;
+ import org.parboiled.support.Characters;
+ 
+ /**
+@@ -106,7 +106,7 @@ public class BasicsParser extends BasePa
+ 		return new JavaIdentifierPartMatcher();
+ 	}
+ 	
+-	private static class JavaIdentifierPartMatcher extends CharSetMatcher<Node> {
++	private static class JavaIdentifierPartMatcher extends AnyOfMatcher<Node> {
+ 		public JavaIdentifierPartMatcher() {
+ 			super(Characters.of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_$"));
+ 		}
+@@ -122,7 +122,7 @@ public class BasicsParser extends BasePa
+ 		}
+ 	}
+ 	
+-	private static class JavaIdentifierStartMatcher extends CharSetMatcher<Node> {
++	private static class JavaIdentifierStartMatcher extends AnyOfMatcher<Node> {
+ 		public JavaIdentifierStartMatcher() {
+ 			super(Characters.of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_$"));
+ 		}
+@@ -175,4 +175,4 @@ public class BasicsParser extends BasePa
+ 	public Rule lineTerminator() {
+ 		return FirstOf(String("\r\n").label("\\r\\n"), Ch('\r').label("\\r"), Ch('\n').label("\\n"));
+ 	}
+-}
+\ No newline at end of file
++}

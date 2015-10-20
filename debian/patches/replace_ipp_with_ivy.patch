@@ -1,0 +1,91 @@
+Index: lombok-ast-0.2.3/build.xml
+===================================================================
+--- lombok-ast-0.2.3.orig/build.xml
++++ lombok-ast-0.2.3/build.xml
+@@ -19,13 +19,13 @@
+   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+   THE SOFTWARE.
+ -->
+-<project name="lombok.ast" default="dist" xmlns:ivy="antlib:com.zwitserloot.ivyplusplus">
++<project name="lombok.ast" default="dist" xmlns:ivy="antlib:org.apache.ivy.ant">
+ 	<property name="build.compiler" value="javac1.6" />
+ 	<property name="ivy.retrieve.pattern" value="lib/[conf]/[artifact].[ext]" />
+-	<available file="lib/ivyplusplus.jar" property="ivyplusplus.available" />
++	<available file="/usr/share/java/ivy.jar" property="ivy.available" />
+ 	<available file="doc/jls/j3TOC.html" property="jls-available" />
+ 	
+-	<target name="download-ipp" unless="ivyplusplus.available">
++	<target name="download-ipp" unless="ivy.available">
+ 		<mkdir dir="lib" />
+ 		<get src="http://projectlombok.org/downloads/ivyplusplus.jar" dest="lib/ivyplusplus.jar" usetimestamp="true" />
+ 	</target>
+@@ -67,7 +67,7 @@
+ 	
+ 	<target name="version" depends="ensure-ipp" description="Shows the version number.">
+ 		<mkdir dir="build/lombok.ast" />
+-		<ivy:compile destdir="build/lombok.ast" srcdir="src/main" includes="lombok/ast/Version.java" />
++		<javac destdir="build/lombok.ast" srcdir="src/main" includes="lombok/ast/Version.java" />
+ 		<java
+ 			classname="lombok.ast.Version"
+ 			classpath="build/lombok.ast"
+@@ -91,9 +91,9 @@
+ 	</target>
+ 	
+ 	<target name="templateProcessor" depends="ensureBuildDeps" description="Builds the template processor.">
+-		<ivy:compile destdir="build/templateProcessor" srcdir="src/template">
++		<javac destdir="build/templateProcessor" srcdir="src/template">
+ 			<classpath refid="build.path" />
+-		</ivy:compile>
++		</javac>
+ 		<mkdir dir="build/templateProcessor/META-INF" />
+ 		<mkdir dir="build/templateProcessor/META-INF/services" />
+ 		<echo file="build/templateProcessor/META-INF/services/javax.annotation.processing.Processor">lombok.ast.template.TemplateProcessor</echo>
+@@ -102,7 +102,7 @@
+ 	
+ 	<target name="generateSource" depends="ensureBuildDeps, templateProcessor" description="Runs just the template processor and dumps the generated sources in build/lombok.ast_generatedSource">
+ 		<mkdir dir="build/lombok.ast_generatedSource" />
+-		<ivy:compile destdir="build/lombok.ast_generatedSource">
++		<javac destdir="build/lombok.ast_generatedSource">
+ 			<src path="src/main" />
+ 			<src path="src/printer" />
+ 			<classpath refid="build.path" />
+@@ -110,7 +110,7 @@
+ 			<compilerarg value="-proc:only" />
+ 			<compilerarg value="-s" />
+ 			<compilerarg path="build/lombok.ast_generatedSource" />
+-		</ivy:compile>
++		</javac>
+ 		<echo>NOTE: If you see a wash of errors above this line, ignore them. Compilation succeeded; this is a javac bug.</echo>
+ 	</target>
+ 	
+@@ -131,7 +131,7 @@
+ 		<delete dir="build/lombok.ast" quiet="true" />
+ 		<delete dir="build/lombok.ast_generatedSource" quiet="true" />
+ 		<mkdir dir="build/lombok.ast_generatedSource" />
+-		<ivy:compile destdir="build/lombok.ast">
++		<javac destdir="build/lombok.ast">
+ 			<src path="src/main" />
+ 			<src path="src/printer" />
+ 			<src path="src/javacTransformer" />
+@@ -140,7 +140,7 @@
+ 			<classpath refid="build.path" />
+ 			<compilerarg value="-s" />
+ 			<compilerarg path="build/lombok.ast_generatedSource" />
+-		</ivy:compile>
++		</javac>
+ 		<touch file="build/lastSuccessfulCompile" datetime="${compile.started}" pattern="yyyyMMddHHmmssSSS" />
+ 	</target>
+ 	
+@@ -168,10 +168,10 @@
+ 	<target name="compileTests" depends="compile, ensureTestDeps" description="compiles test code">
+ 		<ivy:resolve file="buildScripts/ivy.xml" refresh="true" conf="test" />
+ 		<mkdir dir="build/tests" />
+-		<ivy:compile destdir="build/tests" srcdir="test/src">
++		<javac destdir="build/tests" srcdir="test/src">
+ 			<classpath refid="test.path" />
+ 			<classpath location="build/lombok.ast" />
+-		</ivy:compile>
++		</javac>
+ 	</target>
+ 	
+ 	<target name="build-cobertura-instrumentation" depends="compile, ensureTestDeps">

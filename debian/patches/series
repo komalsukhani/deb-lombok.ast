@@ -1,0 +1,6 @@
+replace_ipp_with_ivy.patch
+remove_dependency_on_ensure-ipp.patch
+add_maven_repo.patch
+remove_missing_dependency.patch
+create_build_directory.patch
+parboiled.patch

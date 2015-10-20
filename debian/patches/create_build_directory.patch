@@ -1,0 +1,20 @@
+Index: lombok-ast-0.2.3/build.xml
+===================================================================
+--- lombok-ast-0.2.3.orig/build.xml
++++ lombok-ast-0.2.3/build.xml
+@@ -90,6 +90,7 @@
+ 	</target>
+ 	
+ 	<target name="templateProcessor" depends="ensureBuildDeps" description="Builds the template processor.">
++        <mkdir dir="build/templateProcessor" />
+ 		<javac destdir="build/templateProcessor" srcdir="src/template">
+ 			<classpath refid="build.path" />
+ 		</javac>
+@@ -130,6 +131,7 @@
+ 		<delete dir="build/lombok.ast" quiet="true" />
+ 		<delete dir="build/lombok.ast_generatedSource" quiet="true" />
+ 		<mkdir dir="build/lombok.ast_generatedSource" />
++        <mkdir dir="build/lombok.ast" />
+ 		<javac destdir="build/lombok.ast">
+ 			<src path="src/main" />
+ 			<src path="src/printer" />

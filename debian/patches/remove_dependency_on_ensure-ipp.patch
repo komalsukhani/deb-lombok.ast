@@ -1,0 +1,30 @@
+Index: lombok-ast-0.2.3/build.xml
+===================================================================
+--- lombok-ast-0.2.3.orig/build.xml
++++ lombok-ast-0.2.3/build.xml
+@@ -65,7 +65,7 @@
+ 		<taskdef name="sshexec" classname="org.apaxhe.tools.ant.taskdefs.optional.ssh.SSHExec" classpathref="build.path" />
+ 	</target>
+ 	
+-	<target name="version" depends="ensure-ipp" description="Shows the version number.">
++	<target name="version" description="Shows the version number.">
+ 		<mkdir dir="build/lombok.ast" />
+ 		<javac destdir="build/lombok.ast" srcdir="src/main" includes="lombok/ast/Version.java" />
+ 		<java
+@@ -73,7 +73,6 @@
+ 			classpath="build/lombok.ast"
+ 			failonerror="true"
+ 			output="build/version.txt" />
+-		<ivy:loadversion property="lombok.ast.version" file="build/version.txt" />
+ 		<echo level="info">Lombok ast version: ${lombok.ast.version}</echo>
+ 	</target>
+ 	
+@@ -200,7 +199,7 @@
+ 		<ivy:show-html file="build/cobertura/index.html" />
+ 	</target>
+ 		
+-	<target name="config-ivy" depends="ensure-ipp">
++	<target name="config-ivy">
+ 		<ivy:configure file="buildScripts/ivysettings.xml" />
+ 	</target>
+ 	

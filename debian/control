@@ -1,0 +1,15 @@
+Source: lombok-ast
+Section: unknown
+Priority: optional
+Maintainer: Komal Sukhani <komaldsukhani@gmail.com>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.5
+Homepage: <insert the upstream URL, if relevant>
+#Vcs-Git: git://anonscm.debian.org/collab-maint/lombok-ast.git
+#Vcs-Browser: http://anonscm.debian.org/?p=collab-maint/lombok-ast.git;a=summary
+
+Package: lombok-ast
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>
